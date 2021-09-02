@@ -120,7 +120,7 @@ Would print out whole Sura Falaq(113th Sura in the Holy Quran) upto Sura Naas(11
 Installation is pretty straightforward, just type in;
 
 ```sh
-make
+make install
 ```
 or
 
