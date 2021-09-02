@@ -1,0 +1,146 @@
+#!/usr/bin/env sh
+
+# check if $HOME/.local/share/ exists
+if [ -f "$HOME/.local/share/Quran/Quran.txt" ]; then
+	file_dir="$HOME/.local/share/Quran/Quran.txt"
+elif [ -f "Quran.txt" ]; then
+	file_dir="Quran.txt"
+else
+	echo "file Quran.txt file not found" && \
+		return 1;
+fi
+
+# functions begin
+# variable names
+usage() {
+	echo
+	echo "Usage:"
+	echo "-l or --list     = List of Sura"
+	echo "-s or --search   = Search for a keyword"
+	echo "-eg or --example = print out some examples"
+	echo "-h or --help     = print out this help message"
+	echo "Example: Quran -h"
+	exit
+}
+example() {
+	echo
+	echo "Quran kahf       =  Will print out the complete Sura Kahf"
+	echo "Quran 18         =  Will print out the 18th Sura in The Holy Quran"
+	echo "Quran kahf:10    =  Will print out the 10th verse of Sura Kahf"
+	echo "Quran 18:10      =  Will print out the 10th verse of 18th Sura in The Holy Quran"
+	echo "Quran kahf:1-10  =  Will print out the verse 1 to 10 of Sura kahf"
+	echo "Quran 18:1-10    =  Will print out the 1 to 10 verse of the 18th Sura in The Holy Quran"
+	echo "Quran falaq-naas =  Will print out Sura Falaq to Sura Naas"
+	echo "Quran 113-114    =  Will print out the 113th to 114th Sura in The Holy Quran"
+	echo
+}
+# loop through verses
+verse_loop() {
+while [ "$from" -le "$to" ]; do
+	echo "With The Name Of Allah, The Most Merciful, The Most Gracious" >> sura.txt
+	grep "\[$chapter:$from\]" $file_dir | \
+		sed 's/^\[.*:\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' >> sura.txt
+	from="$(( $from + 1 ))"
+done
+}
+# loop through chapters
+chapter_loop() {
+	while [ "$schapter" -le "$echapter" ]; do
+		#echo "With The Name Of Allah, The Most Merciful, The Most Gracious" >> sura.txt
+		grep -w3 "\[$schapter:*" $file_dir | \
+			sed 's/^\[\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' >> sura.txt
+		schapter="$(( $schapter + 1 ))"
+	done
+}
+# opening Grace message
+opening_msg() {
+	echo "With the name of Allah, The Most Merciful. The Most Gracious" >> sura.txt
+	echo " " >> sura.txt
+}
+# functions end
+
+[ -z "$1" ] && usage
+echo $1 | grep -q -- "-s\|--search"
+[ "$?" = 0 ] && \
+	grep -i "$2" $file_dir | \
+	sed 's/^\[\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' | less
+echo $1 | grep -q -- "-h\|--help"
+[ "$?" = 0 ] && usage
+echo $1 | grep -q -- "-eg\|--example"
+[ "$?" = 0 ] && example
+echo $1 | grep -q -- "-l\|--list"
+[ "$?" = 0 ] && \
+	sed -n '1,117p' $file_dir | less
+
+# Digit interpretation
+
+# General 
+echo $1 | grep -q "^[[:digit:]]\+$"
+[ "$?" = 0 ] && \
+	grep -w3 "^\[$1:*" $file_dir | \
+	sed 's/^\[.*:\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' | \
+	less && [ -f sura.txt ] && rm sura.txt
+
+# Show verse
+echo $1 | grep -q "^[[:digit:]]\+:[[:digit:]]\+$"
+[ "$?" = 0 ] && echo "$1" | sed 's/\(.*\):.*/\1/g' | \
+	xargs -I '{}' grep -m1 "^{}\.\s" $file_dir> sura.txt && \
+	opening_msg && \
+	grep "\[$1\]" $file_dir>> sura.txt && \
+	less sura.txt && rm sura.txt
+
+# Verse range
+echo $1 | grep -q "^[[:digit:]]\+:[[:digit:]]\+-[[:digit:]]\+$"
+[ "$?" = 0 ] && \
+	chapter="$(echo $1 | cut -d ':' -f1)" && \
+	from="$(echo $1 | sed 's/.*:\(.*\)-.*/\1/g')" && \
+	to="$(echo $1 | sed 's/.*-\(.*\)/\1/g')" && \
+	grep -m1 "^$chapter\.\s" $file_dir> sura.txt && \
+	verse_loop && less sura.txt && rm sura.txt
+
+# chapter range
+echo $1 | grep "^[[:digit:]]\+-[[:digit:]]\+$" | grep -q -v ":"
+[ "$?" = 0 ] && \
+	schapter="$(echo $1 | cut -d '-' -f1)" && \
+	echapter="$(echo $1 | cut -d '-' -f2)" && \
+	chapter_loop && less sura.txt && rm sura.txt
+
+# Alphabetical interpretation
+
+# General
+echo $1 | grep -q "^[[:alpha:]]\+$"
+[ "$?" = 0 ] && \
+	achapter="$(grep -i -m1 "$1" $file_dir | cut -d '.' -f1)" && \
+	grep -w3 "^\[$achapter:*" $file_dir | \
+	sed 's/^\[.*:\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' | \
+	less && [ -f sura.txt ] && rm sura.txt
+
+# Show verse
+echo $1 | grep -q "^[[:alpha:]]\+:[[:digit:]]\+$"
+[ "$?" = 0 ] && \
+	verse="$(echo $1 | cut -d ':' -f2)" && \
+	chapter="$(echo $1 | cut -d ':' -f1 | \
+	xargs -I '{}' grep -i -m1 "{}" $file_dir | cut -d '.' -f1)" && \
+	grep -i -m1 "^$chapter\.\s" $file_dir> sura.txt && \
+	opening_msg && \
+	grep "\[$chapter:$verse\]" $file_dir>> sura.txt && \
+	less sura.txt && rm sura.txt
+
+# Verse range
+echo $1 | grep -q "^[[:alpha:]]\+:[[:digit:]]\+-[[:digit:]]\+$"
+[ "$?" = 0 ] && \
+	chapter="$(echo $1 | cut -d ':' -f1 | \
+	xargs -I '{}' grep -i -m1 "{}" $file_dir | cut -d '.' -f1)" && \
+	from="$(echo $1 | sed 's/.*:\(.*\)-.*/\1/g')" && \
+	to="$(echo $1 | sed 's/.*-\(.*\)/\1/g')" && \
+	grep -i -m1 "^$chapter\.\s" $file_dir> sura.txt && \
+	verse_loop && less sura.txt && rm sura.txt
+
+# chapter range
+echo $1 | grep -q "^[[:alpha:]]\+-[[:alpha:]]\+$"
+[ "$?" = 0 ] && \
+	schapter="$(echo $1 | cut -d '-' -f1 | \
+	xargs -I '{}' grep -i -m1 "{}" $file_dir | cut -d '.' -f1)" && \
+	echapter="$(echo $1 | cut -d '-' -f2 | \
+	xargs -I '{}' grep -i -m1 "{}" $file_dir | cut -d '.' -f1)" && \
+	chapter_loop && less sura.txt && rm sura.txt
