@@ -132,4 +132,6 @@ On a typical Linux system, this should install the program in `$HOME/.local/bin/
 
 Hopefully you get benefited from this program. If you find any typos, or having problem running it in your system, make sure to open an issue.
 
-Feel free to support with [bitcoin] 13erq7DDXDuqqBohht3UNyuJCXtpJcWGSe
+## Note
+
+I have also included a Turkish translation of the Quran thanks to Benyamin. Now there's 2 options during installation process which asks which translated version you want to install.
