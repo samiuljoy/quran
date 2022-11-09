@@ -1,5 +1,7 @@
 ## Read the Holy Quran from the command line
 
+Praise to the one and only, the lord of the Universe, Allah Who made it possible for me to write this piece of software
+
 Read the English translation of the Holy Quran right from your terminal on GNU/Linux systems. The translated version is taken from Shaykh Mufti Taqi Usmani. I've included an [about the translator](about-translator.txt) file if you're curious to know more about Shaykh Mufti Taqi Usmani and his works.
 
 This script will also work on any text file/file containing chapters and verses of the same format as the [Quran.txt](Quran.txt) file.
