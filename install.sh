@@ -4,7 +4,7 @@ echo "[1] Turkish"
 echo "[2] English"
 read language
 case "$language" in
-	1) echo $PATH | grep -q "\.local/bin\(:\|/\)"
+	1) echo $PATH | grep -q "\.local\/bin\(:\|/\)"
 	case "$?" in
 		0 ) [ -d "$HOME/.local/share/" ] && mkdir -p $HOME/.local/share/Quran && cp Quran_Turkish.txt $HOME/.local/share/Quran/ && val=yes || echo "$HOME/.local/share/ directory does not exist"
 			sed -i 's/Quran.txt/Quran_Turkish.txt/g' Quran
@@ -16,7 +16,7 @@ case "$language" in
 			;;
 	esac
 	;;
-	2) echo $PATH | grep -q "\.local/bin\(:\|/\)"
+	2) echo $PATH | grep -q "\.local\/bin\(:\|/\)"
 	case "$?" in
 		0 ) [ -d "$HOME/.local/share/" ] && mkdir -p $HOME/.local/share/Quran && cp Quran.txt $HOME/.local/share/Quran/ && val=yes || echo "$HOME/.local/share/ directory does not exist"
 			sed -i 's/Quran_Turkish.txt/Quran.txt/g' Quran
