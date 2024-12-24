@@ -1,5 +1,5 @@
-<p align="center">***Note: New repositories from now on will be uploaded to [github.com/samiulahmedjoy](https://github.com/samiulahmedjoy)***
-***A similar cli program like `Quran` has been uploaded to the github above called `hadith`. Go check it out***</p>
+<p align="center"><b><font style="color:teal;">Note:</font> New repositories from now on will be uploaded to <a href="https://github.com/samiulahmedjoy">github.com/samiulahmedjoy</a><br>
+A similar cli program like <pre>Quran</pre> has been uploaded to the github above called <pre>hadith</pre>. Go check it out</b></p>
 
 ## Read the Holy Quran from the command line
 
