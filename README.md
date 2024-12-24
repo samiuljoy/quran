@@ -133,7 +133,3 @@ sh install.sh
 On a typical Linux system, this should install the program in `$HOME/.local/bin/` provided that `$HOME/.local/bin` is included in you $PATH and the Quran.txt under `$HOME/.local/share/Quran/Quran.txt`. You could of course change that, or manually copy that.
 
 Hopefully you get benefited from this program. If you find any typos, or having problem running it in your system, make sure to open an issue.
-
-## Note
-
-I have also included a Turkish translation of the Quran thanks to Benyamin. Now there's 2 options during installation process which asks which translated version you want to install.
