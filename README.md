@@ -1,3 +1,6 @@
+***Note: New repositories from now on will be uploaded to [github.com/samiulahmedjoy](https://github.com/samiulahmedjoy)***
+***A similar cli program like `Quran` has been uploaded to the github above called `hadith`. Go check it out***
+
 ## Read the Holy Quran from the command line
 
 Praise to the one and only, the lord of the Universe, Allah Who made it possible for me to write this piece of software
