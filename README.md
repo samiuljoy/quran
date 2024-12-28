@@ -13,6 +13,11 @@ This script will also work on any text file/file containing chapters and verses 
 
 ### Usage
 
+**Here's a basic showcasing video**
+
+[https://youtu.be/EGsrfyhPwik](Tutorial)
+
+
 The usage is pretty straightforward, to invoke the script, just type in `Quran` without the quotation marks from your terminal. Invoking `Quran` without any arguments will print out the basic usage message.
 
 ### Flags
