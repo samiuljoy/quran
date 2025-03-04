@@ -1,7 +1,9 @@
 > [!IMPORTANT]
-> ***New repositories from now on will be uploaded to [github.com/samiulahmedjoy](https://github.com/samiulahmedjoy)***
+> ***New repositories from now on will be uploaded to [github.com/samiulahmedjoy](https://github.com/samiulahmedjoy) If you have any issues regarding this repository, make sure to open issues instead at [github.com/samiulahmedjoy/quran](https://github.com/samiulahmedjoy/quran)***
 
 > ***A similar cli program like `Quran` has been uploaded to the [github](https://github.com/samiulahmedjoy/hadith) above called `hadith`. Go check it out***
+
+> ***A similar cli program like `Quran` has been uploaded to the [github](https://github.com/samiulahmedjoy/hisnulmuslim) above called `hisnulmuslim`. Go check it out***
 
 ## Read the Holy Quran from the command line
 
