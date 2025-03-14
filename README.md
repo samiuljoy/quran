@@ -1,3 +1,10 @@
+> [!IMPORTANT]
+> ***New repositories from now on will be uploaded to [github.com/samiulahmedjoy](https://github.com/samiulahmedjoy) If you have any issues regarding this repository, make sure to open issues instead at [github.com/samiulahmedjoy/quran](https://github.com/samiulahmedjoy/quran)***
+
+> ***A similar cli program like `Quran` has been uploaded to the github [repository](https://github.com/samiulahmedjoy/hadith) above called `hadith`. Go check it out***
+
+> ***A similar cli program like `Quran` has been uploaded to the github [repository](https://github.com/samiulahmedjoy/hisnulmuslim) above called `hisnulmuslim`. Go check it out***
+
 ## Read the Holy Quran from the command line
 
 Praise to the one and only, the lord of the Universe, Allah Who made it possible for me to write this piece of software
@@ -138,10 +145,3 @@ sh install.sh
 On a typical Linux system, this should install the program in `$HOME/.local/bin/` provided that `$HOME/.local/bin` is included in you $PATH and the Quran.txt under `$HOME/.local/share/Quran/Quran.txt`. You could of course change that, or manually copy that.
 
 Hopefully you get benefited from this program. If you find any typos, or having problem running it in your system, make sure to open an issue.
-
-> [!IMPORTANT]
-> ***New repositories from now on will be uploaded to [github.com/samiulahmedjoy](https://github.com/samiulahmedjoy) If you have any issues regarding this repository, make sure to open issues instead at [github.com/samiulahmedjoy/quran](https://github.com/samiulahmedjoy/quran)***
-
-> ***A similar cli program like `Quran` has been uploaded to the [github](https://github.com/samiulahmedjoy/hadith) above called `hadith`. Go check it out***
-
-> ***A similar cli program like `Quran` has been uploaded to the [github](https://github.com/samiulahmedjoy/hisnulmuslim) above called `hisnulmuslim`. Go check it out***
