@@ -2,6 +2,7 @@
 
 # Global variables
 pager="less -s"
+sura_file="sura.txt"
 
 # check if $HOME/.local/share/ exists
 if [ -f "$HOME/.local/share/Quran/Quran.txt" ]; then
@@ -45,10 +46,10 @@ example() {
 # Loop through verses
 
 verse_loop() {
-echo "With The Name Of Allah, The Most Merciful, The Most Gracious" >> sura.txt
+echo "With The Name Of Allah, The Most Merciful, The Most Gracious" >> $sura_file
 while [ "$from" -le "$to" ]; do
 	grep "\[$chapter:$from\]" $file_dir | \
-		sed 's/^\[.*:\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' >> sura.txt
+		sed 's/^\[.*:\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' >> $sura_file
 	from="$(( $from + 1 ))"
 done
 }
@@ -58,7 +59,7 @@ done
 chapter_loop() {
 	while [ "$schapter" -le "$echapter" ]; do
 		grep -w3 "\[$schapter:*" $file_dir | \
-			sed 's/^\[\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' >> sura.txt
+			sed 's/^\[\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' >> $sura_file
 		schapter="$(( $schapter + 1 ))"
 	done
 }
@@ -66,8 +67,8 @@ chapter_loop() {
 # opening grace message
 
 opening_msg() {
-	echo "With the name of Allah, The Most Merciful. The Most Gracious" >> sura.txt
-	echo " " >> sura.txt
+	echo "With the name of Allah, The Most Merciful. The Most Gracious" >> $sura_file
+	echo " " >> $sura_file
 }
 # functions end
 
@@ -86,7 +87,8 @@ case "$1" in
 		
 		# if search keyword is non-empty
 		grep -i "$2" $file_dir | \
-			sed 's/^\[\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' | $pager
+			sed 's/^\[\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' | \
+			$pager -p "$2"
 		;;
 	-h|--help ) # prints help message/usage
 		usage
@@ -108,15 +110,15 @@ echo $1 | grep -q "^[[:digit:]]\+$"
 [ "$?" = 0 ] && \
 	grep -w3 "^\[$1:*" $file_dir | \
 	sed 's/^\[.*:\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' | \
-	$pager && [ -f sura.txt ] && rm sura.txt
+	$pager && [ -f $sura_file ] && rm $sura_file
 
 # Show verse
 echo $1 | grep -q "^[[:digit:]]\+:[[:digit:]]\+$"
 [ "$?" = 0 ] && echo "$1" | sed 's/\(.*\):.*/\1/g' | \
-	xargs -I '{}' grep -m1 "^{}\.\s" $file_dir> sura.txt && \
+	xargs -I '{}' grep -m1 "^{}\.\s" $file_dir> $sura_file && \
 	opening_msg && \
-	grep "\[$1\]" $file_dir>> sura.txt && \
-	$pager sura.txt && rm sura.txt
+	grep "\[$1\]" $file_dir>> $sura_file && \
+	$pager $sura_file && rm $sura_file
 
 # Verse range
 echo $1 | grep -q "^[[:digit:]]\+:[[:digit:]]\+-[[:digit:]]\+$"
@@ -124,15 +126,15 @@ echo $1 | grep -q "^[[:digit:]]\+:[[:digit:]]\+-[[:digit:]]\+$"
 	chapter="$(echo $1 | cut -d ':' -f1)" && \
 	from="$(echo $1 | sed 's/.*:\(.*\)-.*/\1/g')" && \
 	to="$(echo $1 | sed 's/.*-\(.*\)/\1/g')" && \
-	grep -m1 "^$chapter\.\s" $file_dir> sura.txt && \
-	verse_loop && $pager sura.txt && rm sura.txt
+	grep -m1 "^$chapter\.\s" $file_dir> $sura_file && \
+	verse_loop && $pager $sura_file && rm $sura_file
 
 # chapter range
 echo $1 | grep "^[[:digit:]]\+-[[:digit:]]\+$" | grep -q -v ":"
 [ "$?" = 0 ] && \
 	schapter="$(echo $1 | cut -d '-' -f1)" && \
 	echapter="$(echo $1 | cut -d '-' -f2)" && \
-	chapter_loop && $pager sura.txt && rm sura.txt
+	chapter_loop && $pager $sura_file && rm $sura_file
 
 # Alphabetical interpretation
 
@@ -142,7 +144,7 @@ echo $1 | grep -q "^[[:alpha:]]\+$"
 	achapter="$(grep -i -m1 "$1" $file_dir | cut -d '.' -f1)" && \
 	grep -w3 "^\[$achapter:*" $file_dir | \
 	sed 's/^\[.*:\(.*\)\]\s\(.*\)/\n\n[\1] \2/g' | \
-	$pager && [ -f sura.txt ] && rm sura.txt
+	$pager && [ -f $sura_file ] && rm $sura_file
 
 # Show verse
 echo $1 | grep -q "^[[:alpha:]]\+:[[:digit:]]\+$"
@@ -150,10 +152,10 @@ echo $1 | grep -q "^[[:alpha:]]\+:[[:digit:]]\+$"
 	verse="$(echo $1 | cut -d ':' -f2)" && \
 	chapter="$(echo $1 | cut -d ':' -f1 | \
 	xargs -I '{}' grep -i -m1 "{}" $file_dir | cut -d '.' -f1)" && \
-	grep -i -m1 "^$chapter\.\s" $file_dir> sura.txt && \
+	grep -i -m1 "^$chapter\.\s" $file_dir> $sura_file && \
 	opening_msg && \
-	grep "\[$chapter:$verse\]" $file_dir>> sura.txt && \
-	$pager sura.txt && rm sura.txt
+	grep "\[$chapter:$verse\]" $file_dir>> $sura_file && \
+	$pager $sura_file && rm $sura_file
 
 # Verse range
 echo $1 | grep -q "^[[:alpha:]]\+:[[:digit:]]\+-[[:digit:]]\+$"
@@ -162,8 +164,8 @@ echo $1 | grep -q "^[[:alpha:]]\+:[[:digit:]]\+-[[:digit:]]\+$"
 	xargs -I '{}' grep -i -m1 "{}" $file_dir | cut -d '.' -f1)" && \
 	from="$(echo $1 | sed 's/.*:\(.*\)-.*/\1/g')" && \
 	to="$(echo $1 | sed 's/.*-\(.*\)/\1/g')" && \
-	grep -i -m1 "^$chapter\.\s" $file_dir> sura.txt && \
-	verse_loop && $pager sura.txt && rm sura.txt
+	grep -i -m1 "^$chapter\.\s" $file_dir> $sura_file && \
+	verse_loop && $pager $sura_file && rm $sura_file
 
 # chapter range
 echo $1 | grep -q "^[[:alpha:]]\+-[[:alpha:]]\+$"
@@ -172,4 +174,4 @@ echo $1 | grep -q "^[[:alpha:]]\+-[[:alpha:]]\+$"
 	xargs -I '{}' grep -i -m1 "{}" $file_dir | cut -d '.' -f1)" && \
 	echapter="$(echo $1 | cut -d '-' -f2 | \
 	xargs -I '{}' grep -i -m1 "{}" $file_dir | cut -d '.' -f1)" && \
-	chapter_loop && $pager sura.txt && rm sura.txt
+	chapter_loop && $pager $sura_file && rm $sura_file
